@@ -4,4 +4,9 @@ html, body {
   overflow:hidden;
 }
 
+#mouseDiv {
+  position: fixed;
+  width: 1200px;
+  text-align: center;
+}
 

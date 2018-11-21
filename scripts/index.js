@@ -36,3 +36,12 @@ function handleFillBox(e) {
     gridSize,
     gridSize);
 }
+
+function getMousePos(e) {
+  return {x:e.clientX,y:e.clientY};
+}
+
+document.onmousemove=function(e) {
+  let mouseCoords = getMousePos(e);
+  mouseDiv.textContent = 'x: ' + mouseCoords.x + ', y: ' + mouseCoords.y;
+};
