@@ -1,6 +1,6 @@
-const gridWidth = 1250,
-      gridHeight = 650,
-      gridSize = 25;
+const gridWidth = 500,
+      gridHeight = 500,
+      gridSize = 50;
 
 const drawGrid = (context, width, height, size = 1) => {
 
@@ -18,13 +18,28 @@ const drawGrid = (context, width, height, size = 1) => {
   context.stroke();
 };
 
+const initArr = (n, m, fill) => {
+  return Array(m).fill().map(() => Array(n).fill(fill));
+};
+
+let gridArr = initArr(gridWidth/gridSize, gridHeight/gridSize, false);
+
 let handleFillBox = (e) => {
   context.fillStyle = "black";
+  let xPos =  Math.floor(e.offsetX / gridSize),
+      yPos =  Math.floor(e.offsetY / gridSize);
+
   context.fillRect(
-    Math.floor(e.offsetX / gridSize) * gridSize,
-    Math.floor(e.offsetY / gridSize) * gridSize,
+    xPos * gridSize,
+    yPos * gridSize,
     gridSize,
     gridSize);
+
+    gridArr[yPos][xPos] = !gridArr[yPos][xPos];
+    console.table(gridArr);
+    //console.log(gridArr[xPos][yPos]);
+    //console.log(xPos, yPos);
+  //gridArr[e.offsetX][e.offsetY] = !gridArr[e.offsetX][e.offsetY]
 };
 
 const fillBox = (x, y, size) => {
@@ -45,8 +60,9 @@ const getMouseBoxPos = (e) => {
   document.getElementById("mouseDiv").style.textAlign = 'center';
 })();
 
+
 const canvas = document.getElementById('canvas'),
-    context = canvas.getContext('2d');
+      context = canvas.getContext('2d');
 
 canvas.setAttribute('width', (gridWidth + 1).toString());
 canvas.setAttribute('height', (gridHeight + 1).toString());
@@ -55,12 +71,10 @@ drawGrid(context, gridWidth, gridHeight, gridSize);
 
 canvas.addEventListener('click', handleFillBox);
 
-fillBox(15, 17, gridSize);
-
 document.onmousemove = (e) => {
   let mouseBoxPos = getMouseBoxPos(e),
-      mouseBoxPosX = Math.floor(mouseBoxPos.x / gridSize) + 1,
-      mouseBoxPosY = Math.floor(mouseBoxPos.y / gridSize) + 1;
+      mouseBoxPosX = Math.floor(mouseBoxPos.x / gridSize);
+      mouseBoxPosY = Math.floor(mouseBoxPos.y / gridSize);
 
   mouseDiv.textContent = 'x: ' + mouseBoxPosX + ', y: ' + mouseBoxPosY;
 };
