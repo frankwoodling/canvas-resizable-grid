@@ -1,8 +1,8 @@
-const gridWidth = 1200,
-      gridHeight = 400,
-      gridSize = 20;
+const gridWidth = 1250,
+      gridHeight = 650,
+      gridSize = 25;
 
-function drawGrid(context, width, height, size = 1) {
+const drawGrid = (context, width, height, size = 1) => {
 
   for (let x = 0.5; x < width + 1; x += size) {
     context.moveTo(x, 0);
@@ -16,10 +16,37 @@ function drawGrid(context, width, height, size = 1) {
 
   context.strokeStyle = "#ddd";
   context.stroke();
-}
+};
 
-let canvas = document.getElementById('canvas');
-let context = canvas.getContext('2d');
+let handleFillBox = (e) => {
+  context.fillStyle = "black";
+  context.fillRect(
+    Math.floor(e.offsetX / gridSize) * gridSize,
+    Math.floor(e.offsetY / gridSize) * gridSize,
+    gridSize,
+    gridSize);
+};
+
+const fillBox = (x, y, size) => {
+  context.fillStyle = "black";
+  context.fillRect(
+    Math.floor(((x - 1) * size) / size) * size,
+    Math.floor(((y - 1) * size) / size) * size,
+    size,
+    size);
+};
+
+const getMouseBoxPos = (e) => {
+  return {x:e.clientX,y:e.clientY};
+};
+
+(styleCoordText => {
+  document.getElementById("mouseDiv").style.width = gridWidth + 'px';
+  document.getElementById("mouseDiv").style.textAlign = 'center';
+})();
+
+const canvas = document.getElementById('canvas'),
+    context = canvas.getContext('2d');
 
 canvas.setAttribute('width', (gridWidth + 1).toString());
 canvas.setAttribute('height', (gridHeight + 1).toString());
@@ -28,20 +55,9 @@ drawGrid(context, gridWidth, gridHeight, gridSize);
 
 canvas.addEventListener('click', handleFillBox);
 
-function handleFillBox(e) {
-  context.fillStyle = "black";
-  context.fillRect(
-    Math.floor(e.offsetX / gridSize) * gridSize,
-    Math.floor(e.offsetY / gridSize) * gridSize,
-    gridSize,
-    gridSize);
-}
+fillBox(15, 17, gridSize);
 
-function getMouseBoxPos(e) {
-  return {x:e.clientX,y:e.clientY};
-}
-
-document.onmousemove=function(e) {
+document.onmousemove = (e) => {
   let mouseBoxPos = getMouseBoxPos(e),
       mouseBoxPosX = Math.floor(mouseBoxPos.x / gridSize) + 1,
       mouseBoxPosY = Math.floor(mouseBoxPos.y / gridSize) + 1;
