@@ -16,3 +16,10 @@ Zoom buttons
 
 Create a directory of .lif 1.06 files and automatically load these in
   * Could automatically download these or keep a rolling archive
+  
+Grid width and height must be divisible by box size.  Grid may need to be resized slightly to enforce this.
+
+Break up handleFillBox into multiple functions.
+* Also modify this to draw a single box with a given color.
+
+gridArr should not be global.  This should all be part of a class.
