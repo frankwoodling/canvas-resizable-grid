@@ -1,6 +1,6 @@
 const gridWidth = 1200,
       gridHeight = 400,
-      gridSize = 25;
+      gridSize = 20;
 
 function drawGrid(context, width, height, size = 1) {
 
@@ -37,11 +37,14 @@ function handleFillBox(e) {
     gridSize);
 }
 
-function getMousePos(e) {
+function getMouseBoxPos(e) {
   return {x:e.clientX,y:e.clientY};
 }
 
 document.onmousemove=function(e) {
-  let mouseCoords = getMousePos(e);
-  mouseDiv.textContent = 'x: ' + mouseCoords.x + ', y: ' + mouseCoords.y;
+  let mouseBoxPos = getMouseBoxPos(e),
+      mouseBoxPosX = Math.floor(mouseBoxPos.x / gridSize) + 1,
+      mouseBoxPosY = Math.floor(mouseBoxPos.y / gridSize) + 1;
+
+  mouseDiv.textContent = 'x: ' + mouseBoxPosX + ', y: ' + mouseBoxPosY;
 };
