@@ -25,41 +25,37 @@ const initArr = (n, m, fill) => {
 let gridArr = initArr(gridWidth/gridSize, gridHeight/gridSize, false);
 
 let handleFillBox = (e) => {
-  context.fillStyle = "black";
-  let xPos =  Math.floor(e.offsetX / gridSize),
+  let colorTrue = 'black',
+      colorFalse = 'white',
+      xPos =  Math.floor(e.offsetX / gridSize),
       yPos =  Math.floor(e.offsetY / gridSize);
 
-  context.fillRect(
-    xPos * gridSize,
-    yPos * gridSize,
-    gridSize,
-    gridSize);
+  gridArr[yPos][xPos] = !gridArr[yPos][xPos];
 
-    gridArr[yPos][xPos] = !gridArr[yPos][xPos];
-    console.table(gridArr);
-    //console.log(gridArr[xPos][yPos]);
-    //console.log(xPos, yPos);
-  //gridArr[e.offsetX][e.offsetY] = !gridArr[e.offsetX][e.offsetY]
+  if (gridArr[yPos][xPos]) fillBox(xPos, yPos, gridSize, colorTrue);
+  else fillBox(xPos, yPos, gridSize, colorFalse);
+
+  // This works but erases grid.  Should I redraw entire grid on each click or only the specific section?
+  // How can the if else statement be improved?  Could make it ternary.  It also looks up the array element a second time.
 };
 
-const fillBox = (x, y, size) => {
-  context.fillStyle = "black";
+const fillBox = (x, y, size, color) => {
+  context.fillStyle = color;
   context.fillRect(
-    Math.floor(((x - 1) * size) / size) * size,
-    Math.floor(((y - 1) * size) / size) * size,
+    Math.floor(x) * size,
+    Math.floor(y) * size,
     size,
     size);
 };
 
 const getMouseBoxPos = (e) => {
-  return {x:e.clientX,y:e.clientY};
+  return { x:e.clientX, y:e.clientY };
 };
 
 (styleCoordText => {
   document.getElementById("mouseDiv").style.width = gridWidth + 'px';
   document.getElementById("mouseDiv").style.textAlign = 'center';
 })();
-
 
 const canvas = document.getElementById('canvas'),
       context = canvas.getContext('2d');
