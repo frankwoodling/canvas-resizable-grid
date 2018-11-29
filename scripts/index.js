@@ -9,7 +9,7 @@ class Grid {
     this.boxColorFalse = 'white';
     this.canvas = document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.canvas.addEventListener('click', this.handleGridClick.bind(this));
+    //this.canvas.addEventListener('click', this.handleGridClick.bind(this));
   }
 
   setupCanvas() {
@@ -42,15 +42,13 @@ class Grid {
   }
 
   handleGridClick(e) {
-    let colorTrue = this.boxColorTrue,
-        colorFalse = this.boxColorFalse,
-        xPos =  Math.floor(e.offsetX / this.gridSize),
+    let xPos =  Math.floor(e.offsetX / this.gridSize),
         yPos =  Math.floor(e.offsetY / this.gridSize);
 
     this.gridArr[yPos][xPos] = !this.gridArr[yPos][xPos];
 
-    let colorChoose = grid.gridArr[yPos][xPos] ? grid.fillBox(xPos, yPos, grid.gridSize, colorTrue) :
-      grid.fillBox(xPos, yPos, grid.gridSize, colorFalse);
+    let colorBox = grid.gridArr[yPos][xPos] ? grid.fillBox(xPos, yPos, grid.gridSize, this.boxColorTrue) :
+      grid.fillBox(xPos, yPos, grid.gridSize, this.boxColorFalse);
 
     grid.drawGrid();
   };
@@ -62,12 +60,52 @@ class Grid {
   initGridArr() {
     this.gridArr = this.fillGridArr(this.gridWidth/this.gridSize, this.gridHeight/this.gridSize, false);
   }
+
+  enforceGridDimensions() {
+    if (this.gridSize > this.gridWidth || this.gridSize > this.gridHeight) {
+      return
+    }
+    if (this.gridWidth%this.gridSize !== 0) {
+      console.log('test_false')
+    }
+    else {
+      console.log('test_true')
+    }
+  }
+
+  getGridDimensions() {
+    return [(this.gridWidth/this.gridSize-1), (this.gridHeight/this.gridSize-1)];
+  }
+
+  drawArrToGrid() {
+    let width = this.getGridDimensions()[0],
+        height = this.getGridDimensions()[1];
+
+    for (let w = 0; w <= width; w++) {
+      for (let h = 0; h <= height; h++) {
+        let colorBox = grid.gridArr[h][w] ? grid.fillBox(w, h, grid.gridSize, this.boxColorTrue) :
+          grid.fillBox(w, h, grid.gridSize, this.boxColorFalse);
+      }
+    }
+  }
+
+  enlargeGrid() {
+
+  }
+
+  shrinkGrid() {
+
+  }
 }
 
 let grid = new Grid(700, 400, 50, '#ddd');
+//grid.enforceGridDimensions();
 grid.setupCanvas();
 grid.initGridArr();
+grid.drawArrToGrid();
 grid.drawGrid();
+
+
 
 // TODO: For debugging only.  Remove when finished.
 const getMouseBoxPos = (e) => {
@@ -81,8 +119,10 @@ const getMouseBoxPos = (e) => {
 
 document.onmousemove = (e) => {
   let mouseBoxPos = getMouseBoxPos(e),
-    mouseBoxPosX = Math.floor(mouseBoxPos.x / grid.gridSize);
-  mouseBoxPosY = Math.floor(mouseBoxPos.y / grid.gridSize);
+    mouseBoxPosX = Math.floor(mouseBoxPos.x / grid.gridSize),
+    mouseBoxPosY = Math.floor(mouseBoxPos.y / grid.gridSize);
 
   mouseDiv.textContent = 'x: ' + mouseBoxPosX + ', y: ' + mouseBoxPosY;
 };
+
+
