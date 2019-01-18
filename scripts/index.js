@@ -9,7 +9,7 @@ class Grid {
     this.boxColorFalse = 'white';
     this.canvas = document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
-    //this.canvas.addEventListener('click', this.handleGridClick.bind(this));
+    this.canvas.addEventListener('click', this.handleGridClick.bind(this));
   }
 
   setupCanvas() {
@@ -42,6 +42,8 @@ class Grid {
   }
 
   handleGridClick(e) {
+    console.log(this.gridArr);
+
     let xPos =  Math.floor(e.offsetX / this.gridSize),
         yPos =  Math.floor(e.offsetY / this.gridSize);
 
@@ -51,6 +53,7 @@ class Grid {
       grid.fillBox(xPos, yPos, grid.gridSize, this.boxColorFalse);
 
     grid.drawGrid();
+
   };
 
   fillGridArr(n, m, fill) {
@@ -59,6 +62,7 @@ class Grid {
 
   initGridArr() {
     this.gridArr = this.fillGridArr(this.gridWidth/this.gridSize, this.gridHeight/this.gridSize, false);
+    console.log(this.gridArr)
   }
 
   enforceGridDimensions() {
@@ -96,6 +100,12 @@ class Grid {
   shrinkGrid() {
 
   }
+
+  clearGrid() {
+    this.initGridArr();
+    this.drawArrToGrid();
+    this.drawGrid();
+  }
 }
 
 let grid = new Grid(700, 400, 50, '#ddd');
@@ -104,8 +114,6 @@ grid.setupCanvas();
 grid.initGridArr();
 grid.drawArrToGrid();
 grid.drawGrid();
-
-
 
 // TODO: For debugging only.  Remove when finished.
 const getMouseBoxPos = (e) => {
@@ -124,5 +132,3 @@ document.onmousemove = (e) => {
 
   mouseDiv.textContent = 'x: ' + mouseBoxPosX + ', y: ' + mouseBoxPosY;
 };
-
-
