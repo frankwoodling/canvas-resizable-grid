@@ -49,10 +49,10 @@ class Grid {
 
     this.gridArr[yPos][xPos] = !this.gridArr[yPos][xPos];
 
-    let colorBox = grid.gridArr[yPos][xPos] ? grid.fillBox(xPos, yPos, grid.gridSize, this.boxColorTrue) :
-      grid.fillBox(xPos, yPos, grid.gridSize, this.boxColorFalse);
+    this.gridArr[yPos][xPos] ? this.fillBox(xPos, yPos, this.gridSize, this.boxColorTrue) :
+      this.fillBox(xPos, yPos, this.gridSize, this.boxColorFalse);
 
-    grid.drawGrid();
+    this.drawGrid();
 
   };
 
@@ -87,8 +87,8 @@ class Grid {
 
     for (let w = 0; w <= width; w++) {
       for (let h = 0; h <= height; h++) {
-        let colorBox = grid.gridArr[h][w] ? grid.fillBox(w, h, grid.gridSize, this.boxColorTrue) :
-          grid.fillBox(w, h, grid.gridSize, this.boxColorFalse);
+        let colorBox = this.gridArr[h][w] ? this.fillBox(w, h, this.gridSize, this.boxColorTrue) :
+          this.fillBox(w, h, this.gridSize, this.boxColorFalse);
       }
     }
   }
